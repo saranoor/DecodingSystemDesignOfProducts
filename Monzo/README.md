@@ -92,3 +92,14 @@ microservices for a bank? Single responsibility per service, clear bounded conte
 
 # Challenge
 1. Resilience against total platform failure (the biggest theme)
+
+# References:
+
+- https://monzo.com/blog/tolerating-full-cloud-outages-with-monzo-stand-in
+- https://monzo.com/blog/the-engineering-behind-the-platform
+- https://aws.amazon.com/blogs/database/how-monzo-bank-reduced-cost-of-ttl-from-time-series-index-tables-in-amazon-keyspaces/
+- https://monzo.com/blog/2016/09/19/building-a-modern-bank-backend
+-https://monzo.com/blog/2019/01/14/crowdfunding-technology-backend-architecture
+-https://monzo.com/blog/2022/02/17/my-first-6-months-at-monzo-as-a-backend-engineer
+- https://www.infoq.com/presentations/monzo-microservices/
+- https://www.infoq.com/news/2019/12/network-isolation-kubernetes/
