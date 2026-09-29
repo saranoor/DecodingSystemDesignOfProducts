@@ -1,22 +1,24 @@
+# Monzo
+
 # Functional Requriemnt
 Functional
-View balance and real-time transaction feed.
-Pay by card (contactless, chip, online) with instant authorisation.
-Send and receive bank transfers (Faster Payments, Bacs, and so on).
-Manage pots, savings, direct debits, standing orders, and scheduled payments.
-Receive instant push notifications for every transaction.
-Freeze or unfreeze cards, and open accounts with KYC (identity verification).
-Contact support in-app.
+- View balance and real-time transaction feed.
+- Pay by card (contactless, chip, online) with instant authorisation.
+- Send and receive bank transfers (Faster Payments, Bacs, and so on).
+- Manage pots, savings, direct debits, standing orders, and scheduled payments.
+- Receive instant push notifications for every transaction.
+- Freeze or unfreeze cards, and open accounts with KYC (identity verification).
+- Contact support in-app.
 
 
 
 # Non Functional Requirement
-Correctness and consistency: no double-spend, no lost transaction.
-High availability: a card authorisation must succeed even if parts of the system are down.
-Low latency: card networks expect a decision within seconds.
-Auditability: every money movement is traceable, as regulators require.
-Security and compliance: zero-trust networking, encryption, and fraud controls.
-Scalability: must handle spikes like salary day.
+- Correctness and consistency: no double-spend, no lost transaction.
+- High availability: a card authorisation must succeed even if parts of the system are down.
+- Low latency: card networks expect a decision within seconds.
+- Auditability: every money movement is traceable, as regulators require.
+- Security and compliance: zero-trust networking, encryption, and fraud controls.
+- Scalability: must handle spikes like salary day.
 
 # Services
 # Extra
