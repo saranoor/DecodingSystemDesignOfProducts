@@ -1,4 +1,5 @@
 # Monzo
+![ScreenShot](/Monzo/mono_high_level_architect.png)
 
 # Functional Requriemnt
 Functional
@@ -9,7 +10,6 @@ Functional
 - Receive instant push notifications for every transaction.
 - Freeze or unfreeze cards, and open accounts with KYC (identity verification).
 - Contact support in-app.
-
 
 
 # Non Functional Requirement
