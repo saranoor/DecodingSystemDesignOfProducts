@@ -27,11 +27,11 @@ I recently came across Monzo and decided to deep dive into its architecture and 
 - Scalability: must handle spikes like salary day.
 
 # Services/Extra
--Ledger and accounts service: the source of truth for balances.
--Card processing service: real-time authorisation decisions. (card authorization, card issuer)
--Payments service: bank transfers over external schemes.
--Feed and notification service: the customer-facing view.
--Risk and fraud service: decisions before money moves.
+- Ledger and accounts service: the source of truth for balances.
+- Card processing service: real-time authorisation decisions. (card authorization, card issuer)
+- Payments service: bank transfers over external schemes.
+- Feed and notification service: the customer-facing view.
+- Risk and fraud service: decisions before money moves.
 
 # Capacity estimatin
 -Total Customers: 15million [https://monzo.com/annual-report/2026]
@@ -71,6 +71,9 @@ I recently came across Monzo and decided to deep dive into its architecture and 
 Why GO? According to the presentation by Matt Heath and Suhail Patel[https://www.infoq.com/presentations/monzo-microservices/] Go it's quite simple and It's statically typed. It makes it quite easy for Monzo to get people on board. Go also has some interesting things such as a backwards compatibility guarantee. They've been using Go from the very early versions of Go 1. Every time a new version of Go comes out, it has a guarantee that Monzo can recompile our code, and  basically get all of the improvements. What that means is the garbage collector, for example, has improved several orders of magnitude over the time that Monzo've had their infrastructure running. Every time Monzo recompile it, test that it still works and  just get those benefits for free.
 
 - Cassandra/ Amazon Keyspaces (a managed, Cassandra-compatible service)
+WHY Cassandra: Monzo uses Cassandra because it is orizontally scalable, with no single write bottleneck, it is jighly available across nodes and zones and s uits high-volume, append-heavy data such as transactions. This is Cassandra  provides a masterless, horizontally scalable database that gives us a lot of controls over writing the data to multiple locations. Monzo don't have this one server, a primary that fails over to a secondary. People assume banks need strict all-or-nothing transactions (ACID). Monzo's engineers argue that real banking is often more relaxed: the system stays available and becomes consistent a little later (BASE). The cost of having high availability is Engineers must build their own safety (locks, idempotency, reconciliation). So, Monzo use strict control where the risk is high, and looser, faster methods where it is safe. SO Monzo does implement locks: it locks the account, does the work, then unlocks. For others, such as late-arriving card payments, they don't need a lock. They put the payments in a queue and apply them to accounts one by one. 
+In sum, Monzo chose Cassandra because it never depends on one server and scales easily, and they handle the "bank-level correctness" part themselves with locks and careful design.
+
 - Kafka
 - Kubernetes and Docker 
 - Envoy Proxy for RPC
@@ -92,25 +95,17 @@ Monzo high level architecture is illustrated as follow:
 
 ![ScreenShot](/Monzo/mono_high_level_architect.png)
 
-## Data base
-- Horizontally scalable, with no single write bottleneck.
-- Highly available across nodes and zones.
-- Suits high-volume, append-heavy data such as transactions
-- Cassandra because it provides a masterless, horizontally scalable database that gives us a lot of controls over writing the data to multiple locations. We don't have this one server, a primary that fails over to a secondary. People assume banks need strict all-or-nothing transactions (ACID). Monzo's engineers argue that real banking is often more relaxed: the system stays available and becomes consistent a little later (BASE)
-
-The cost of having high availability is Engineers must build their own safety (locks, idempotency, reconciliation). So, Monzo use strict control where the risk is high, and looser, faster methods where it is safe. SO Monzo does implement locks: it locks the account, does the work, then unlocks. For others, such as late-arriving card payments, they don't need a lock. They put the payments in a queue and apply them to accounts one by one. 
-In sum, Monzo chose Cassandra because it never depends on one server and scales easily, and they handle the "bank-level correctness" part themselves with locks and careful design.
 
 # Flow
 The ledger, card authorization flow and payment is illustrative in the diagram below
 
-- The ledger flow is illustrated by the flow chart below:
+## The ledger flow is illustrated by the flow chart below:
 ![ScreenShot](/Monzo/ledger_flow.png)
 
-- The Card authorization flow is illustrated by the diagram below:
+## The Card authorization flow is illustrated by the diagram below:
 ![ScreenShot](/Monzo/card_authorization.png)
 
-- The payment state machine is illustrated by the diagram below:
+## The payment state machine is illustrated by the diagram below:
 ![ScreenShot](/Monzo/payment_state_machine.png)
 
 # Challenge
