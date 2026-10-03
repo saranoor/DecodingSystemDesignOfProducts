@@ -26,7 +26,7 @@ I recently came across Monzo and decided to deep dive into its architecture and 
 - Security and compliance: zero-trust networking, encryption, and fraud controls.
 - Scalability: must handle spikes like salary day.
 
-# Services/Extra
+# Services
 - Ledger and accounts service: the source of truth for balances.
 - Card processing service: real-time authorisation decisions. (card authorization, card issuer)
 - Payments service: bank transfers over external schemes.
@@ -35,29 +35,31 @@ I recently came across Monzo and decided to deep dive into its architecture and 
 
 # Capacity estimatin
 -Total Customers: 15million [https://monzo.com/annual-report/2026]
-- Monzo has published its actual peak numbers: over 2,000,000 reads and 100,000 writes per second on Amazon Keyspaces, across more than 350 TB of data. That is about a 20:1 read:write ratio. However, my estimation is done below:
+    - Monzo has published its actual peak numbers: over 2,000,000 reads and 100,000 writes per second on Amazon Keyspaces, across more than 350 TB of data. That is about a 20:1 read:write ratio. However, my estimation is done below:
 
-- Card and payment transactions	10M × 3/day = 30M/day ≈ 350 TPS average, ~3,500 TPS peak (10× at salary time)
-- App API calls	10M users × 4 sessions × 10 calls = 400M/day ≈ 4,600 RPS average, ~20k RPS peak
-- Storage	30M tx × ~2 KB = ~60 GB/day ≈ 22 TB/year, ~66 TB/year with replication factor 3
-- Notifications	~30M/day, one per transaction
+- Card and payment transactions	
+    - 10M × 3/day = 30M/day ≈ 350 TPS average, ~3,500 TPS peak (10× at salary time)
+    - App API calls	10M users × 4 sessions × 10 calls = 400M/day ≈ 4,600 RPS average, ~20k RPS peak
+    - Storage	30M tx × ~2 KB = ~60 GB/day ≈ 22 TB/year, ~66 TB/year with replication factor 3
+    - Notifications	~30M/day, one per transaction
+
 - users = 10 M
 - Read = ?
 - Writes = ?
 
 - Writes. These come from money movement.
 
-1. 10M active users x 3 card or payment transactions per day = 30M transactions/day.
-2. Each transaction fans out to about 8 database writes (authorisation hold, ledger entries, feed entry, idempotency key, notification record, and so on).
-3. 30M x 8 = 240M writes/day, which is about 2,800 writes/sec average.
-4. With a 10x peak, that is about 28,000 writes/sec.
+    1. 10M active users x 3 card or payment transactions per day = 30M transactions/day.
+    2. Each transaction fans out to about 8 database writes (authorisation hold, ledger entries, feed entry, idempotency key, notification record, and so on).
+    3. 30M x 8 = 240M writes/day, which is about 2,800 writes/sec average.
+    4. With a 10x peak, that is about 28,000 writes/sec.
 
 - Reads. These come from app usage.
 
-1. 10M users x 4 sessions x 10 API calls = 400M API calls/day.
-2. Each call causes about 5 database reads across services (balance, feed, pots, and so on).
-3. 400M x 5 = 2B reads/day, which is about 23,000 reads/sec average.
-4. With a 5x peak, that is about 115,000 reads/sec.
+    1. 10M users x 4 sessions x 10 API calls = 400M API calls/day.
+    2. Each call causes about 5 database reads across services (balance, feed, pots, and so on).
+    3. 400M x 5 = 2B reads/day, which is about 23,000 reads/sec average.
+    4. With a 5x peak, that is about 115,000 reads/sec.
 
 - Ratio. Roughly 8:1 reads to writes.
 
@@ -85,9 +87,9 @@ In sum, Monzo chose Cassandra because it never depends on one server and scales 
 - pots
 
 # Architect
-Monzo follow Microservice based Architecture. Single responsibility per service, clear bounded contexts (cards, payments, accounts, notifications), and independent deployment.
+- Monzo follow Microservice based Architecture. Single responsibility per service, clear bounded contexts (cards, payments, accounts, notifications), and independent deployment.
 
-Monzo uses a hybrid architecture that relies on both synchronous and asynchronous patterns, depending on the specific task being performed. Services communicate by RPC for synchronous calls and by events for asynchronous flows.
+- Monzo uses a hybrid architecture that relies on both synchronous and asynchronous patterns, depending on the specific task being performed. Services communicate by RPC for synchronous calls and by events for asynchronous flows.
 
 # High Level Design
 Monzo high level architecture is illustrated as follow:
