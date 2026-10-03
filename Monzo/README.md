@@ -1,5 +1,6 @@
 # Monzo
-I recently came across Monzo and decided to deep dive into its architecture and design. Here is the information about Monzo tech stask and high level design that I have found out or infered through Monzo Blog, LinkedIn, InfoQ, and claude(AI). I would be happy to receive any input you have over the flow, architect and resources. I would also love to know if any of the features I had mentioned below are not a part of Monzo platform.
+I recently came across Monzo and decided to deep dive into its architecture and design. Here is the information about Monzo tech stask and high level design that I have found out or infered through Monzo Blog, LinkedIn, InfoQ, and claude(AI). I would be happy to receive any input you have over the flow, architect and resources. Also as the information mentioend in the article is gathered from sources published in prevous years, there is a possibility that Monzo may have evolved. Therefore, I would appreciate if any up to date information is provided as a feedback.
+
 
 ![ScreenShot](/Monzo/mono_high_level_architect.png)
 
@@ -33,7 +34,7 @@ I recently came across Monzo and decided to deep dive into its architecture and 
 - Feed and notification service: the customer-facing view.
 - Risk and fraud service: decisions before money moves.
 
-# Capacity estimatin
+# Capacity estimation
 -Total Customers: 15million [https://monzo.com/annual-report/2026]
     - Monzo has published its actual peak numbers: over 2,000,000 reads and 100,000 writes per second on Amazon Keyspaces, across more than 350 TB of data. That is about a 20:1 read:write ratio. However, my estimation is done below:
 
@@ -65,7 +66,7 @@ I recently came across Monzo and decided to deep dive into its architecture and 
 
 # Design Evolution
 - Early stage (2015–2016): Monzo started with a small set of services. By the beta launch the backend had grown to nearly 100 services, and the team reconsidered its architectural choices ahead of the banking licence.
-- Scaling stage: by 2019 there were around 1,500 services with over 9,300 inter-service interactions. A 2022 engineering blog post puts it at around 2,000 microservices. In 2024, it was published that there are 2800 (https://monzo.com/blog/how-we-run-migrations-across-2800-microservices)
+- Scaling stage: by 2019 there were around 1,500 services with over 9,300 inter-service interactions. A 2022 engineering blog post puts it at around 2,000 microservices. In 2024, it was published that there are 2800.(https://monzo.com/blog/how-we-run-migrations-across-2800-microservices)
 
 
 # Tech stack
@@ -129,4 +130,4 @@ The ledger, card authorization flow and payment is illustrative in the diagram b
 - https://monzo.com/blog/2022/02/18/how-we-calculate-balances
 
 # Questions
-- what SQL queries are run when we have cassandra https://monzo.com/blog/2022/02/08/processing-payments-safely-at-scale perhaps, there is a relational database used in Monzo?
+- What SQL queries are run when we have cassandra https://monzo.com/blog/2022/02/08/processing-payments-safely-at-scale perhaps, there is a relational database used in Monzo?
