@@ -1,8 +1,6 @@
 # Monzo
 I recently came across Monzo and decided to deep dive into its architecture and design. Here is the information about Monzo tech stask and high level design that I have found out or infered through Monzo Blog, LinkedIn, InfoQ, and claude(AI). I would be happy to receive any input you have over the flow, architect and resources. Also as the information mentioend in the article is gathered from sources published in prevous years, there is a possibility that Monzo may have evolved. Therefore, I would appreciate if any up to date information is provided as a feedback.
-
-
-![ScreenShot](/Monzo/mono_high_level_architect.png)
+![ScreenShot](/Monzo/monzo_title_diagram.png)
 
 # Functional Requriemnt
 - View balance and real-time transaction feed.
@@ -15,6 +13,7 @@ I recently came across Monzo and decided to deep dive into its architecture and 
 - Receive instant push notifications for every transaction.
 - Freeze or unfreeze cards, and open accounts with KYC (identity verification).
 - Contact support in-app 
+- Fraud detection
 - undo a payment (https://monzo.com/blog/undo-payments)
 - Making an international payment(foreign exchange) [https://monzo.com/blog/building-a-processing-system-for-international-payments]
 - Agent chip (https://lnkd.in/p/dDxxEdjh)
@@ -128,6 +127,7 @@ The ledger, card authorization flow and payment is illustrative in the diagram b
 - https://monzo.com/blog/engineering-the-future-of-customer-operations-the-monzo-ops-agent
 - https://monzo.com/blog/2022/02/08/processing-payments-safely-at-scale
 - https://monzo.com/blog/2022/02/18/how-we-calculate-balances
+- https://www.infoq.com/articles/cassandra-kubernetes-microservices/
 
 # Questions
 - What SQL queries are run when we have cassandra https://monzo.com/blog/2022/02/08/processing-payments-safely-at-scale perhaps, there is a relational database used in Monzo?
